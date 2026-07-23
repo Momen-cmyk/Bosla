@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BUSLA — Smart School Transportation</title>
+  <meta name="description" content="AI-powered school transportation management system with live GPS tracking, route optimization, and real-time communication.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230891b2'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='white'>B</text></svg>">
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+  <nav class="container navbar-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">🚌</div>
+      <span>BUSLA</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tracking.html">Live Map</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tracking.html" class="btn btn-primary btn-sm">View Live Demo</a>
+      <button id="mobileToggle" class="mobile-toggle" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<nav id="mobileNav" class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="tracking.html">Live Map</a>
+  <a href="dashboard.html">Dashboard</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-badge">🚀 AI-Powered School Transportation</div>
+    <h1>Smart School<br><span class="highlight">Transportation</span></h1>
+    <p>Live GPS tracking, AI route optimization, and real-time communication between schools, parents, and drivers — all in one platform.</p>
+    <div class="hero-actions">
+      <a href="tracking.html" class="btn btn-primary btn-lg">View Live Demo →</a>
+      <a href="dashboard.html" class="btn btn-outline btn-lg">See Dashboard</a>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">Features</span>
+      <h2>Everything You Need</h2>
+      <p>Complete school transportation management with tools for every stakeholder.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">📍</div>
+        <h3>Live GPS Tracking</h3>
+        <p>Real-time bus location with 5-second updates. Know where every bus is at any moment.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🗺️</div>
+        <h3>AI Route Optimization</h3>
+        <p>Smart algorithms reduce fuel costs by 23% and optimize routes based on traffic and student locations.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">✅</div>
+        <h3>Digital Attendance</h3>
+        <p>QR code and NFC check-in. Know exactly which students are on board in real-time.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">🆘</div>
+        <h3>SOS Emergency System</h3>
+        <p>One-tap emergency alerts with GPS coordinates sent instantly to administrators and parents.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">⏱️</div>
+        <h3>ETA Predictions</h3>
+        <p>AI-driven arrival predictions that account for traffic, weather, and route conditions.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">📊</div>
+        <h3>Reports & Analytics</h3>
+        <p>Comprehensive dashboards with driver performance, fleet utilization, and operational insights.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Platform -->
+<section class="section section-muted">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">Platform</span>
+      <h2>Four Apps, One Platform</h2>
+      <p>Role-specific apps connecting everyone in the school transportation ecosystem.</p>
+    </div>
+    <div class="platform-grid">
+      <div class="platform-card fade-in">
+        <div class="platform-icon" style="background:rgba(8,145,178,0.1)">🖥️</div>
+        <h3>Web Dashboard</h3>
+        <p>Full fleet management for transportation managers with real-time monitoring and reporting.</p>
+      </div>
+      <div class="platform-card fade-in">
+        <div class="platform-icon" style="background:rgba(59,130,246,0.1)">📱</div>
+        <h3>Parent App</h3>
+        <p>Live bus tracking, push notifications, and trip history for complete peace of mind.</p>
+      </div>
+      <div class="platform-card fade-in">
+        <div class="platform-icon" style="background:rgba(16,185,129,0.1)">🚌</div>
+        <h3>Driver App</h3>
+        <p>Turn-by-turn navigation, student check-in, and one-tap emergency tools.</p>
+      </div>
+      <div class="platform-card fade-in">
+        <div class="platform-icon" style="background:rgba(139,92,246,0.1)">🛡️</div>
+        <h3>Supervisor App</h3>
+        <p>Multi-bus monitoring, attendance verification, and digital safety inspections.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">How It Works</span>
+      <h2>Live in 2-3 Weeks</h2>
+      <p>Simple implementation process. We handle the setup so you focus on operations.</p>
+    </div>
+    <div class="steps">
+      <div class="step fade-in">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Onboard Your School</h3>
+          <p>We set up your profile, import student data, define routes, and configure user roles.</p>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Equip Your Fleet</h3>
+          <p>GPS trackers installed in 30 minutes per bus. Apps downloaded by drivers and parents.</p>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Go Live</h3>
+          <p>AI optimizes routes automatically. Attendance tracked digitally. Parents get live updates.</p>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Optimize & Grow</h3>
+          <p>Analytics identify improvements. Expand across your entire school or multi-school network.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats-banner fade-in">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item"><h3>50K+</h3><p>Students Daily</p></div>
+      <div class="stat-item"><h3>98.5%</h3><p>On-Time Rate</p></div>
+      <div class="stat-item"><h3>23%</h3><p>Fuel Cost Reduction</p></div>
+      <div class="stat-item"><h3>500+</h3><p>Schools Trust BUSLA</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section">
+  <div class="container">
+    <div class="section-header fade-in">
+      <span class="section-label">Testimonials</span>
+      <h2>Trusted by School Leaders</h2>
+      <p>Hear from the people who use BUSLA every day.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in">
+        <p>"BUSLA transformed our transportation from a daily challenge into a seamless operation. Parents love the live tracking."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AH</div>
+          <div>
+            <div class="testimonial-name">Dr. Amira Hassan</div>
+            <div class="testimonial-role">School Director, Cairo International</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card fade-in">
+        <p>"The AI route optimization reduced our fuel costs by 23% in the first quarter. The real win is knowing where every bus is."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">KS</div>
+          <div>
+            <div class="testimonial-name">Khaled El-Sayed</div>
+            <div class="testimonial-role">Transportation Manager, British School</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta-banner fade-in">
+      <h2>Ready to Transform Your School Transportation?</h2>
+      <p>Join 500+ schools already using BUSLA. See the platform in action.</p>
+      <div class="cta-actions">
+        <a href="tracking.html" class="btn btn-white btn-lg">View Live Demo →</a>
+        <a href="dashboard.html" class="btn btn-outline-white btn-lg">See Dashboard</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><div class="logo-icon">🚌</div>BUSLA</a>
+        <p>AI-powered Smart School Transportation Management System.</p>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+          <li><a href="tracking.html">Live Map</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 BUSLA. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

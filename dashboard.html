@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — BUSLA</title>
+  <meta name="description" content="School transportation management dashboard with real-time fleet monitoring for BUSLA.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230891b2'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='white'>B</text></svg>">
+  <style>
+    .dash-main { padding-top: 88px; padding-bottom: 40px; }
+  </style>
+</head>
+<body>
+
+<header class="navbar scrolled">
+  <nav class="container navbar-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">B</div>
+      <span>BUSLA</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tracking.html">Live Map</a></li>
+      <li><a href="dashboard.html" class="active">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tracking.html" class="btn btn-primary btn-sm">Live Map</a>
+      <button id="mobileToggle" class="mobile-toggle" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<nav id="mobileNav" class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="tracking.html">Live Map</a>
+  <a href="dashboard.html">Dashboard</a>
+</nav>
+
+<main class="dash-main">
+  <div class="container">
+
+    <div class="dash-header">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Real-time fleet overview and management</p>
+      </div>
+      <div class="dash-badge"><span class="live-dot"></span> Live · Updated 5s ago</div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="dash-grid" id="statsGrid">
+      <div class="dash-card fade-in">
+        <div class="dash-card-header">
+          <span>Active Buses</span>
+          <div class="dash-card-icon">🚌</div>
+        </div>
+        <h3 id="statBuses">8</h3>
+        <span class="dash-trend">▲ 2 from yesterday</span>
+      </div>
+      <div class="dash-card fade-in">
+        <div class="dash-card-header">
+          <span>Students Today</span>
+          <div class="dash-card-icon">👤</div>
+        </div>
+        <h3 id="statStudents">342</h3>
+        <span class="dash-trend">▲ 12% this week</span>
+      </div>
+      <div class="dash-card fade-in">
+        <div class="dash-card-header">
+          <span>On-Time Rate</span>
+          <div class="dash-card-icon">⏱️</div>
+        </div>
+        <h3 id="statOntime">94%</h3>
+        <span class="dash-trend">▲ 2% improvement</span>
+      </div>
+      <div class="dash-card fade-in">
+        <div class="dash-card-header">
+          <span>Avg Trip Time</span>
+          <div class="dash-card-icon">📏</div>
+        </div>
+        <h3 id="statAvgTime">27 min</h3>
+        <span class="dash-trend" style="color:var(--accent);">▼ 3 min from target</span>
+      </div>
+    </div>
+
+    <!-- Two columns -->
+    <div class="dash-cols">
+      <!-- Active Trips -->
+      <div class="dash-panel fade-in">
+        <div class="dash-panel-header">
+          <h3>Active Trips</h3>
+          <a href="tracking.html" style="font-size:13px;color:var(--brand);text-decoration:none;font-weight:500;">View Map →</a>
+        </div>
+        <div class="dash-panel-body" id="tripsBody">
+          <div class="dash-row">
+            <div>
+              <div class="dash-row-title">Bus A · Route 1</div>
+              <div class="dash-row-sub">Green Valley · 18 students</div>
+            </div>
+            <div class="dash-row-right">
+              <span>ETA 14 min</span>
+              <span class="dash-row-badge" style="color:var(--success);background:rgba(16,185,129,0.1);">On Time</span>
+            </div>
+          </div>
+          <div class="dash-row">
+            <div>
+              <div class="dash-row-title">Bus B · Route 2</div>
+              <div class="dash-row-sub">Downtown · 12 students</div>
+            </div>
+            <div class="dash-row-right">
+              <span>ETA 8 min</span>
+              <span class="dash-row-badge" style="color:var(--success);background:rgba(16,185,129,0.1);">On Time</span>
+            </div>
+          </div>
+          <div class="dash-row">
+            <div>
+              <div class="dash-row-title">Bus C · Route 3</div>
+              <div class="dash-row-sub">University · 15 students</div>
+            </div>
+            <div class="dash-row-right">
+              <span>ETA 22 min</span>
+              <span class="dash-row-badge" style="color:var(--accent);background:rgba(245,158,11,0.1);">Delayed</span>
+            </div>
+          </div>
+          <div class="dash-row">
+            <div>
+              <div class="dash-row-title">Bus D · Route 4</div>
+              <div class="dash-row-sub">Al Rayyan · 10 students</div>
+            </div>
+            <div class="dash-row-right">
+              <span>ETA 18 min</span>
+              <span class="dash-row-badge" style="color:var(--success);background:rgba(16,185,129,0.1);">On Time</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions & Activity -->
+      <div>
+        <!-- Quick Actions -->
+        <div class="dash-panel fade-in" style="margin-bottom:16px;">
+          <div class="dash-panel-header">
+            <h3>Quick Actions</h3>
+          </div>
+          <div class="dash-panel-body" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <a href="#" style="display:flex;align-items:center;gap:8px;padding:12px;border-radius:var(--radius);border:1px solid var(--border);text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:18px;">🚨</span>
+              <div><div style="font-size:13px;font-weight:500;">Emergency Alert</div><div style="font-size:11px;color:var(--text-muted);">Send to all drivers</div></div>
+            </a>
+            <a href="#" style="display:flex;align-items:center;gap:8px;padding:12px;border-radius:var(--radius);border:1px solid var(--border);text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:18px;">📋</span>
+              <div><div style="font-size:13px;font-weight:500;">Attendance Report</div><div style="font-size:11px;color:var(--text-muted);">Today's summary</div></div>
+            </a>
+            <a href="#" style="display:flex;align-items:center;gap:8px;padding:12px;border-radius:var(--radius);border:1px solid var(--border);text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:18px;">➕</span>
+              <div><div style="font-size:13px;font-weight:500;">Add Bus</div><div style="font-size:11px;color:var(--text-muted);">Register new vehicle</div></div>
+            </a>
+            <a href="#" style="display:flex;align-items:center;gap:8px;padding:12px;border-radius:var(--radius);border:1px solid var(--border);text-decoration:none;color:inherit;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--brand)'" onmouseout="this.style.borderColor='var(--border)'">
+              <span style="font-size:18px;">📊</span>
+              <div><div style="font-size:13px;font-weight:500;">Analytics</div><div style="font-size:11px;color:var(--text-muted);">View reports</div></div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="dash-panel fade-in">
+          <div class="dash-panel-header">
+            <h3>Recent Activity</h3>
+          </div>
+          <div class="dash-panel-body" id="activityBody">
+            <div class="dash-row">
+              <div>
+                <div class="dash-row-title">Bus A started Route 1</div>
+                <div class="dash-row-sub">7:42 AM · Driver: Ahmed</div>
+              </div>
+              <span class="dash-row-badge" style="color:var(--success);">Completed</span>
+            </div>
+            <div class="dash-row">
+              <div>
+                <div class="dash-row-title">Student boarded: Liam Chen</div>
+                <div class="dash-row-sub">7:38 AM · Stop: Green Valley</div>
+              </div>
+              <span class="dash-row-badge" style="color:var(--success);">Checked In</span>
+            </div>
+            <div class="dash-row">
+              <div>
+                <div class="dash-row-title">ETA Alert: Bus C delayed</div>
+                <div class="dash-row-sub">7:30 AM · Traffic on Highway 5</div>
+              </div>
+              <span class="dash-row-badge" style="color:var(--accent);">Warning</span>
+            </div>
+            <div class="dash-row">
+              <div>
+                <div class="dash-row-title">Fuel report generated</div>
+                <div class="dash-row-sub">7:15 AM · 15% below monthly avg</div>
+              </div>
+              <span class="dash-row-badge" style="color:var(--success);">Report</span>
+            </div>
+            <div class="dash-row">
+              <div>
+                <div class="dash-row-title">Maintenance reminder: Bus D</div>
+                <div class="dash-row-sub">6:55 AM · Oil change due in 200 km</div>
+              </div>
+              <span class="dash-row-badge" style="color:var(--text-muted);">Scheduled</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="js/main.js"></script>
+<script>
+// ─── Live Stats Update ──────────────────────────────────────
+function updateStats() {
+  document.getElementById("statBuses").textContent = Math.floor(Math.random() * 3 + 7)
+  document.getElementById("statStudents").textContent = Math.floor(Math.random() * 40 + 330)
+  document.getElementById("statOntime").textContent = (Math.random() * 5 + 92).toFixed(1) + "%"
+}
+setInterval(updateStats, 5000)
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelector(".navbar").classList.add("scrolled")
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Map — BUSLA</title>
+  <meta name="description" content="Live GPS bus tracking with real-time location and student attendance for BUSLA.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230891b2'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='white'>B</text></svg>">
+  <style>
+    .navbar { background: rgba(255,255,255,0.5); }
+  </style>
+</head>
+<body>
+
+<header class="navbar scrolled">
+  <nav class="container navbar-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">B</div>
+      <span>BUSLA</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tracking.html" class="active">Live Map</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="btn btn-outline btn-sm">Dashboard</a>
+      <button id="mobileToggle" class="mobile-toggle" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<nav id="mobileNav" class="mobile-nav">
+  <a href="index.html">Home</a>
+  <a href="tracking.html">Live Map</a>
+  <a href="dashboard.html">Dashboard</a>
+</nav>
+
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <span class="live-badge"><span class="live-dot"></span> LIVE</span>
+      <span style="font-size:12px;color:var(--text-muted);font-weight:500;">Updated 5s ago</span>
+    </div>
+
+    <div class="sidebar-stats">
+      <div class="stat-card">
+        <div class="stat-label">Active Buses</div>
+        <div class="stat-value good" id="activeBuses">3</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">On-Time Rate</div>
+        <div class="stat-value good" id="onTimeRate">94%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Students Onboard</div>
+        <div class="stat-value" id="studentsOnboard">42</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg ETA</div>
+        <div class="stat-value warn" id="avgEta">12 min</div>
+      </div>
+    </div>
+
+    <div class="bus-list">
+      <div class="section-title">Fleet</div>
+      <div id="busList"></div>
+    </div>
+
+    <div class="sidebar-footer">BUSLA v2.1 · School Transportation System</div>
+  </aside>
+
+  <!-- Map Area -->
+  <main class="map-area" id="mapArea">
+    <svg class="route-line" id="routeSvg" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:3;"></svg>
+
+    <!-- Roads -->
+    <div class="road h r1"></div>
+    <div class="road h r2"></div>
+    <div class="road h r3"></div>
+    <div class="road v c1"></div>
+    <div class="road v c2"></div>
+    <div class="road v c3"></div>
+    <div class="road v c4"></div>
+
+    <!-- Stops -->
+    <div class="stop" id="stop1" data-label="Main Gate" style="left:20%;top:25%;"></div>
+    <div class="stop" id="stop2" data-label="Sports Complex" style="left:40%;top:50%;"></div>
+    <div class="stop" id="stop3" data-label="Library" style="left:60%;top:25%;"></div>
+    <div class="stop" id="stop4" data-label="Science Block" style="left:80%;top:50%;"></div>
+    <div class="stop" id="stop5" data-label="Admin" style="left:20%;top:75%;"></div>
+    <div class="stop" id="stop6" data-label="Dormitory" style="left:60%;top:75%;"></div>
+    <div class="stop" id="stop7" data-label="Parking" style="left:40%;top:25%;"></div>
+    <div class="stop" id="stop8" data-label="Cafeteria" style="left:80%;top:25%;"></div>
+
+    <!-- Buses (positions match route start points) -->
+    <div class="map-bus" id="bus1" style="left:20%;top:25%;">
+      <div class="map-bus-icon" style="background:linear-gradient(135deg,#0891b2,#0e7490);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M7 17v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2"/><path d="M13 17v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="7" y1="7" x2="9" y2="7"/><line x1="13" y1="7" x2="15" y2="7"/><line x1="7" y1="14" x2="9" y2="14"/><line x1="13" y1="14" x2="15" y2="14"/></svg>
+      </div>
+      <div class="map-bus-label">Bus A · 14 min</div>
+    </div>
+    <div class="map-bus" id="bus2" style="left:20%;top:75%;">
+      <div class="map-bus-icon" style="background:linear-gradient(135deg,#10b981,#059669);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M7 17v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2"/><path d="M13 17v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="7" y1="7" x2="9" y2="7"/><line x1="13" y1="7" x2="15" y2="7"/><line x1="7" y1="14" x2="9" y2="14"/><line x1="13" y1="14" x2="15" y2="14"/></svg>
+      </div>
+      <div class="map-bus-label">Bus B · 8 min</div>
+    </div>
+    <div class="map-bus" id="bus3" style="left:60%;top:75%;">
+      <div class="map-bus-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M7 17v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2"/><path d="M13 17v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="7" y1="7" x2="9" y2="7"/><line x1="13" y1="7" x2="15" y2="7"/><line x1="7" y1="14" x2="9" y2="14"/><line x1="13" y1="14" x2="15" y2="14"/></svg>
+      </div>
+      <div class="map-bus-label">Bus C · 22 min</div>
+    </div>
+
+    <!-- Students Panel -->
+    <div class="students-panel" id="studentsPanel">
+      <h4>Students Onboard · 12</h4>
+      <div id="studentList"></div>
+    </div>
+
+    <!-- Info Panel -->
+    <div class="info-panel" id="infoPanel">
+      <div class="info-item">
+        <div class="info-label">ETA</div>
+        <div class="info-value" id="etaValue">--</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Distance</div>
+        <div class="info-value" id="distanceValue">--</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Speed</div>
+        <div class="info-value" id="speedValue">--</div>
+      </div>
+      <div class="info-item">
+        <div class="info-label">Students</div>
+        <div class="info-value" id="infoStudentCount">--</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+// ─── Bus Data ──────────────────────────────────────
+const buses = [
+  { id: "bus1", name: "Bus A", status: "moving", route: "Route 1 · Green Valley", progress: 65, eta: 14, students: 18, cap: 40, speed: 32, distance: "1.2 km", stops: ["stop1","stop2","stop3","stop4"] },
+  { id: "bus2", name: "Bus B", status: "moving", route: "Route 2 · Downtown", progress: 45, eta: 8, students: 12, cap: 35, speed: 28, distance: "0.8 km", stops: ["stop5","stop2","stop7","stop8"] },
+  { id: "bus3", name: "Bus C", status: "stopped", route: "Route 3 · University", progress: 82, eta: 22, students: 15, cap: 40, speed: 0, distance: "2.1 km", stops: ["stop6","stop3","stop8","stop4"] },
+]
+const studentNames = ["Liam Chen","Sofia Patel","Noah Kim","Emma Rodriguez","Oliver Smith","Ava Johnson","Ethan Brown","Mia Garcia","Lucas Wilson","Isabella Lee","Mason Davis","Sophia Martinez","James Taylor","Charlotte Anderson","Benjamin Thomas","Amelia Jackson","Elijah White","Harper Harris","William Martin","Evelyn Thompson"]
+
+// ─── State ──────────────────────────────────────
+let selectedBus = buses[0]
+let animFrame = null
+let busPositions = { bus1: 0, bus2: 0, bus3: 0 }
+const busSpeeds = { bus1: 0.06, bus2: 0.08, bus3: 0.04 }
+const routes = {
+  // Main Gate → right → Sports Complex → up? → Library → right → Science Block
+  bus1: [
+    { x:"20%",y:"25%"},{ x:"24%",y:"25%"},{ x:"28%",y:"25%"},{ x:"32%",y:"25%"},{ x:"36%",y:"25%"},
+    { x:"40%",y:"25%"},{ x:"40%",y:"30%"},{ x:"40%",y:"35%"},{ x:"40%",y:"40%"},{ x:"40%",y:"45%"},
+    { x:"40%",y:"50%"},{ x:"44%",y:"50%"},{ x:"48%",y:"50%"},{ x:"52%",y:"50%"},{ x:"56%",y:"50%"},
+    { x:"60%",y:"50%"},{ x:"60%",y:"45%"},{ x:"60%",y:"40%"},{ x:"60%",y:"35%"},{ x:"60%",y:"30%"},
+    { x:"60%",y:"25%"},{ x:"64%",y:"25%"},{ x:"68%",y:"25%"},{ x:"72%",y:"25%"},{ x:"76%",y:"25%"},
+    { x:"80%",y:"25%"},{ x:"80%",y:"30%"},{ x:"80%",y:"35%"},{ x:"80%",y:"40%"},{ x:"80%",y:"45%"},
+    { x:"80%",y:"50%"},
+  ],
+  // Admin → right → Sports Complex → up → Parking → right → Cafeteria
+  bus2: [
+    { x:"20%",y:"75%"},{ x:"24%",y:"75%"},{ x:"28%",y:"75%"},{ x:"32%",y:"75%"},{ x:"36%",y:"75%"},
+    { x:"40%",y:"75%"},{ x:"40%",y:"70%"},{ x:"40%",y:"65%"},{ x:"40%",y:"60%"},{ x:"40%",y:"55%"},
+    { x:"40%",y:"50%"},{ x:"40%",y:"45%"},{ x:"40%",y:"40%"},{ x:"40%",y:"35%"},{ x:"40%",y:"30%"},
+    { x:"40%",y:"25%"},{ x:"44%",y:"25%"},{ x:"48%",y:"25%"},{ x:"52%",y:"25%"},{ x:"56%",y:"25%"},
+    { x:"60%",y:"25%"},{ x:"64%",y:"25%"},{ x:"68%",y:"25%"},{ x:"72%",y:"25%"},{ x:"76%",y:"25%"},
+    { x:"80%",y:"25%"},
+  ],
+  // Dormitory → up → Library → right → Cafeteria → down → Science Block
+  bus3: [
+    { x:"60%",y:"75%"},{ x:"60%",y:"70%"},{ x:"60%",y:"65%"},{ x:"60%",y:"60%"},{ x:"60%",y:"55%"},
+    { x:"60%",y:"50%"},{ x:"60%",y:"45%"},{ x:"60%",y:"40%"},{ x:"60%",y:"35%"},{ x:"60%",y:"30%"},
+    { x:"60%",y:"25%"},{ x:"64%",y:"25%"},{ x:"68%",y:"25%"},{ x:"72%",y:"25%"},{ x:"76%",y:"25%"},
+    { x:"80%",y:"25%"},{ x:"80%",y:"30%"},{ x:"80%",y:"35%"},{ x:"80%",y:"40%"},{ x:"80%",y:"45%"},
+    { x:"80%",y:"50%"},
+  ],
+}
+
+// ─── Render Bus List (once) ──────────────────────────────────────
+function buildBusList() {
+  const list = document.getElementById("busList")
+  list.innerHTML = buses.map(b => `
+    <div class="bus-card ${b.id === selectedBus.id ? "active" : ""}" data-id="${b.id}">
+      <div class="bus-card-top">
+        <span class="bus-name">${b.name}</span>
+        <span class="bus-status ${b.status}">${b.status === "moving" ? "● Moving" : "● Stopped"}</span>
+      </div>
+      <div class="bus-route">${b.route}</div>
+      <div class="bus-progress">
+        <span class="pct">${b.progress}%</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:${b.progress}%"></div></div>
+        <span class="eta">ETA ${b.eta} min</span>
+      </div>
+    </div>
+  `).join("")
+  // Event delegation on bus list
+  list.addEventListener("click", e => {
+    const card = e.target.closest(".bus-card")
+    if (!card) return
+    selectedBus = buses.find(b => b.id === card.dataset.id) || selectedBus
+    document.querySelectorAll(".bus-card").forEach(c => c.classList.toggle("active", c === card))
+    updateInfoPanel(selectedBus)
+    updateStudentPanel(selectedBus)
+  })
+}
+// ─── Update progress bars only (every frame) ──────────────────────
+function updateProgress() {
+  document.querySelectorAll(".bus-card").forEach(card => {
+    const id = card.dataset.id
+    const bus = buses.find(b => b.id === id)
+    if (!bus) return
+    card.querySelector(".pct").textContent = bus.progress + "%"
+    const fill = card.querySelector(".progress-fill")
+    if (fill) fill.style.width = bus.progress + "%"
+  })
+}
+
+// ─── Update Info Panel ──────────────────────────────────────
+function updateInfoPanel(bus) {
+  document.getElementById("etaValue").textContent = bus.eta + " min"
+  document.getElementById("distanceValue").textContent = bus.distance || "1.2 km"
+  document.getElementById("speedValue").textContent = bus.status === "moving" ? (bus.speed || "30") + " km/h" : "0 km/h"
+  document.getElementById("infoStudentCount").textContent = bus.students + "/" + bus.cap
+}
+
+// ─── Update Student Panel ──────────────────────────────────────
+function updateStudentPanel(bus) {
+  const list = document.getElementById("studentList")
+  const onboard = studentNames.slice(0, bus.students)
+  list.innerHTML = onboard.map((name, i) => `
+    <div class="student-item">
+      <div class="student-check ${i < bus.students * 0.6 ? "done" : "pending"}">${i < bus.students * 0.6 ? "✓" : ""}</div>
+      ${name}
+    </div>
+  `).join("")
+  document.querySelector("#studentsPanel h4").textContent = `Students Onboard · ${onboard.length}`
+}
+
+// ─── Parse percent → px ──────────────────────────────────────
+function pctToPx(val, dim) {
+  const pct = parseFloat(val)
+  return (pct / 100) * dim
+}
+
+// ─── Draw Route Lines ──────────────────────────────────────
+function drawRouteLines() {
+  const map = document.getElementById("mapArea")
+  const svg = document.getElementById("routeSvg")
+  const w = map.clientWidth, h = map.clientHeight
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`)
+  const colors = ["#0891b2","#10b981","#f59e0b"]
+  svg.innerHTML = Object.keys(routes).map((key, i) => {
+    const pts = routes[key]
+    const d = pts.map((p, j) => {
+      const x = pctToPx(p.x, w), y = pctToPx(p.y, h)
+      return (j === 0 ? "M" : "L") + x + " " + y
+    }).join(" ")
+    return `<path d="${d}" stroke="${colors[i]}" stroke-width="3" fill="none" stroke-dasharray="6 4" opacity="0.4"/>`
+  }).join("")
+}
+
+// ─── Animate Buses ──────────────────────────────────────
+function animateBuses() {
+  const map = document.getElementById("mapArea")
+  const w = map.clientWidth, h = map.clientHeight
+
+  buses.forEach(bus => {
+    const route = routes[bus.id]
+    if (!route) return
+    const speed = busSpeeds[bus.id]
+    busPositions[bus.id] = (busPositions[bus.id] + speed) % route.length
+    const idx = Math.floor(busPositions[bus.id])
+    const nextIdx = (idx + 1) % route.length
+    const t = busPositions[bus.id] - idx
+    const p1 = route[idx], p2 = route[nextIdx]
+    const x1 = pctToPx(p1.x, w), y1 = pctToPx(p1.y, h)
+    const x2 = pctToPx(p2.x, w), y2 = pctToPx(p2.y, h)
+    const x = x1 + (x2 - x1) * t
+    const y = y1 + (y2 - y1) * t
+
+    const el = document.getElementById(bus.id)
+    if (el) {
+      el.style.left = x + "px"
+      el.style.top = y + "px"
+      el.querySelector(".map-bus-label").textContent = `${bus.name} · ${bus.eta} min`
+    }
+
+    // Update sidebar progress
+    const progress = Math.min(100, Math.round((busPositions[bus.id] / (route.length - 1)) * 100))
+    bus.progress = progress
+  })
+
+  updateProgress()
+  updateInfoPanel(selectedBus)
+  updateStudentPanel(selectedBus)
+
+  animFrame = requestAnimationFrame(animateBuses)
+}
+
+// ─── Init ──────────────────────────────────────
+function init() {
+  document.querySelector(".navbar").classList.add("scrolled")
+  buildBusList()
+  updateInfoPanel(selectedBus)
+  updateStudentPanel(selectedBus)
+  drawRouteLines()
+  animateBuses()
+  window.addEventListener("resize", drawRouteLines)
+}
+
+document.addEventListener("DOMContentLoaded", init)
+</script>
+</body>
+</html>
